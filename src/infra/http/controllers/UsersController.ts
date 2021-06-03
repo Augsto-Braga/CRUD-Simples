@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import CreateUserService from '../../../service/CreateUserService';
 import DeleteUserService from '../../../service/DeleteUserService';
+import FindUserService from '../../../service/FindUserService';
 import ListUsersService from '../../../service/ListUsersService';
 
 export default class UsersController {
@@ -28,5 +29,16 @@ export default class UsersController {
 
     await deleteUserService.execute(userId.id);
     return response.send('Usuário Deletado');
+  }
+
+  public async findUser(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const findUserService = new FindUserService();
+    const userId = request.params;
+    const findUser = await findUserService.execute(userId.id);
+
+    return response.json(findUser);
   }
 }
